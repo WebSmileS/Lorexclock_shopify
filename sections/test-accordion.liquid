@@ -1,0 +1,107 @@
+        <div class="divid_6">
+            <div class="forth_p">
+                {% for block in section.blocks %}
+                    <h4 class="accordion" onclick="accord({{ forloop.index0 }})">{{ block.settings.group_btn_txt }}</h4>
+                    {% assign block_number=forloop.index %}
+                    <div class="panel">
+                        <p>{{ block.settings.group_txt }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <hr class="hrpad">
+        </div>
+{% schema %}
+{
+"name":"Product Information",
+"max_blocks":5,
+"blocks":[
+{
+"name":"Group",
+"type":"buttongroup",
+"settings":[
+{
+"type":"text",
+"id":"group_btn_txt",
+"label":"Edit Button",
+"default":"Uses & directions"
+},
+{
+"type":"textarea",
+"id":"group_txt",
+"label":"Edit Content",
+"default":"Please Edit Text"
+}
+]
+}
+]
+}
+{% endschema %}
+
+<script>
+    // accordion
+    window.addEventListener("resize", function () {
+        var i_num= {{ block_number }}
+        for (var i = 0; i < i_num ; i++) {
+            if (window.innerWidth < 650) {
+                document.getElementsByClassName("panel")[i].style.display = "flex";
+                document.getElementsByClassName("panel")[i+i_num].style.maxHeight = null;
+                document.getElementsByClassName("panel")[i + i_num].style.display = "none";
+                if (document.getElementsByClassName('accordion')[i].classList.contains('active')) {
+                    document.getElementsByClassName("panel")[i].style.maxHeight = document.getElementsByClassName("panel")[i].scrollHeight + "px";
+                }
+            }
+            else {
+                document.getElementsByClassName("panel")[i+i_num].style.display = "flex";
+                document.getElementsByClassName("panel")[i].style.display = "none";
+                document.getElementsByClassName("panel")[i].style.maxHeight = null;
+                if (document.getElementsByClassName('accordion')[i].classList.contains('active')) {
+                    document.getElementsByClassName("panel")[i + i_num].style.maxHeight = document.getElementsByClassName("panel")[i + i_num].scrollHeight + "px";
+                }
+            }
+        }
+    });
+
+    function accord(u) {
+        var acc = document.getElementsByClassName('accordion')[u];
+        var panel = document.getElementsByClassName("panel")[u];
+        for (var i = 0; i < 3; i++) {
+            document.getElementsByClassName('panel')[i].style.display = "flex";
+
+            if (i == u) {
+                if (acc.classList.contains('active')) {
+                    acc.classList.remove('active');
+                    panel.style.maxHeight = null;
+                } else {
+                    acc.classList.add('active');
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            } else {
+                document.getElementsByClassName('accordion')[i].classList.remove('active');
+                document.getElementsByClassName('panel')[i].style.maxHeight = null;
+            }
+        }
+    }
+
+
+    function accord(u) {
+        var i_num = {{ block_number }}
+        var acc = document.getElementsByClassName('accordion')[u];
+        var panel = document.getElementsByClassName("panel")[u];
+        for (var i = 0; i < i_num; i++) {
+            document.getElementsByClassName('panel')[i].style.display = "flex";
+
+            if (i == u) {
+                if (acc.classList.contains('active')) {
+                    acc.classList.remove('active');
+                    panel.style.maxHeight = null;
+                } else {
+                    acc.classList.add('active');
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            } else {
+                document.getElementsByClassName('accordion')[i].classList.remove('active');
+                document.getElementsByClassName('panel')[i].style.maxHeight = null;
+            }
+        }
+    }
+</script>

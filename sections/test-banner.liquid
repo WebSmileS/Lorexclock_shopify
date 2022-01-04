@@ -1,0 +1,102 @@
+<style>
+    .big_text{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: {{ section.settings.big_color }};
+        font-size: {{ section.settings.big_font_size }}px;
+    }
+</style>
+{% assign set=section.settings %}
+<div class="container">
+    <a target="_blank" href="{% if customer.tag contains 'vip' %}{{ set.vip_url }}
+{% elsif customer.tag contains 'reg'%}{{ set.reg_url }}{% else %}{{ set.non_url }}{% endif %}">
+        <img src="{% if customer.tag contains 'vip' %}{{ set.vip_image | img_url }}
+{% elsif customer.tag contains 'reg'%}{{ set.reg_image | img_url }}{% else %}{{ set.non_image | img_url }}{% endif %}" alt="Cinque Terre" class="gallery">
+    </a>
+    <div class="big_text">
+        {% if customer.tag contains 'vip' %}{{ set.vip_txt }}
+        {% elsif customer.tag contains 'reg'%}{{ set.reg_txt }}{% else %}{{ set.non_txt }}{% endif %}
+    </div>
+</div>
+{% schema %}
+{
+"name":"Banner",
+"settings":[
+{
+"type":"color",
+"id":"big_color",
+"label":"Choose Color",
+"default":"#000000"
+},
+{
+"type":"range",
+"max":20,
+"min":8,
+"step": 1,
+"unit": "px",
+"id":"big_font_size",
+"label":"Choose Text Size",
+"default":15
+},
+{
+"type":"header",
+"content":"For non-registered users"
+},
+{
+"type":"image_picker",
+"id":"non_image",
+"label":"Choose Image"
+},
+{
+"type":"text",
+"id":"non_txt",
+"label":"Edit Text"
+},
+{
+"type":"url",
+"id":"non_url",
+"label":"Edit Link"
+},
+{
+"type":"header",
+"content":"For Registered users"
+},
+{
+"type":"image_picker",
+"id":"reg_image",
+"label":"Choose Image"
+},
+{
+"type":"text",
+"id":"reg_txt",
+"label":"Edit Text"
+},
+{
+"type":"url",
+"id":"reg_url",
+"label":"Edit Link"
+},
+{
+"type":"header",
+"content":"For VIP"
+},
+{
+"type":"image_picker",
+"id":"vip_image",
+"label":"Choose Image"
+},
+{
+"type":"text",
+"id":"vip_txt",
+"label":"Edit Text"
+},
+{
+"type":"url",
+"id":"vip_url",
+"label":"Edit Link"
+}
+]
+}
+{% endschema %}

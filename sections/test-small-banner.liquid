@@ -1,0 +1,82 @@
+<style>
+    .sbtext{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: {{ section.settings.sb_color }};
+        font-size: {{ section.settings.sb_font_size }}px;
+    }
+    .grid-container {
+        display: grid;
+        grid-column-gap: 40px;
+        grid-template-columns: {% if section.blocks.size == 1 %} auto {% elsif section.blocks.size == 2%}
+                                    auto auto{% else %} auto auto auto {% endif %};
+    }
+</style>
+
+<div class="mt">
+    <div class=" divid_6">
+        <div class="grid-container">
+            {% for block in section.blocks %}
+            <div class="container">
+                <a href="{{ block.settings.sb_link }}">
+                    <img class="sbanimg" src="{{ block.settings.sb_image | img_url }}">
+                </a>
+                <div class="sbtext">
+                   {{ block.settings.sb_txt }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <hr class="hrpad">
+    </div>
+</div>
+
+{% schema %}
+{
+"name":"Small Banner",
+"max_blocks":3,
+"settings":[
+{
+"type":"color",
+"id":"sb_color",
+"label":"Choose Color",
+"default":"#000000"
+},
+{
+"type":"range",
+"max":20,
+"min":8,
+"step": 1,
+"unit": "px",
+"id":"sb_font_size",
+"label":"Choose Text Size",
+"default":15
+}
+],
+"blocks":[
+{
+"name":"SmallBanner",
+"type":"smallbanner",
+"settings":[
+{
+"type":"image_picker",
+"id":"sb_image",
+"label":"Choose Image"
+},
+{
+"type":"text",
+"id":"sb_txt",
+"label":"Edit text"
+},
+{
+"type":"url",
+"id":"sb_link",
+"label":"Banner Link"
+}
+]
+}
+]
+}
+{% endschema %}
